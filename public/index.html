@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metrics Lineage Console</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true"></span>
+      <div>
+        <h1>Metrics Lineage Console</h1>
+        <p class="sub">Daily → weekly → organization comparison, with lineage you can trust</p>
+      </div>
+    </div>
+    <div class="gen-pill" id="gen-pill" title="The generation every panel is pinned to">
+      <span class="dot"></span>
+      <span id="gen-label">connecting…</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel span-2" id="overview">
+      <div class="panel-head">
+        <h2>Live build</h2>
+        <div class="actions">
+          <button id="btn-build" class="primary">Recompute pending changes</button>
+          <button id="btn-rebuild" class="ghost">Full rebuild</button>
+        </div>
+      </div>
+      <div class="tiles" id="tiles"></div>
+      <div class="build-area" id="build-area" hidden>
+        <div class="build-head">
+          <div>
+            <strong id="build-title">Planned recompute</strong>
+            <span id="build-sub" class="muted"></span>
+          </div>
+          <div class="actions">
+            <button id="btn-advance" class="ghost" data-role="advance">Advance 1 step</button>
+            <button id="btn-cancel" class="danger" data-role="cancel">Cancel</button>
+            <button id="btn-resume" class="primary" data-role="resume" hidden>Resume</button>
+          </div>
+        </div>
+        <div class="progress"><div class="bar" id="build-bar"></div></div>
+        <ol class="steps" id="steps"></ol>
+      </div>
+    </section>
+
+    <section class="panel" id="deps-panel">
+      <div class="panel-head">
+        <h2>Dependency graph</h2>
+        <div class="segmented" id="dir-toggle">
+          <button data-dir="upstream" class="active">Upstream</button>
+          <button data-dir="downstream">Downstream</button>
+          <button data-dir="both">Both</button>
+        </div>
+      </div>
+      <p class="muted small" id="deps-hint">Pick a node in the comparison table to trace its lineage.</p>
+      <div class="lineage" id="lineage"></div>
+    </section>
+
+    <section class="panel" id="reasons-panel">
+      <div class="panel-head">
+        <h2>Why it recomputed</h2>
+      </div>
+      <div id="reasons" class="reasons"><p class="muted">No partition selected yet.</p></div>
+    </section>
+
+    <section class="panel span-2" id="compare-panel">
+      <div class="panel-head">
+        <h2>Organization comparison</h2>
+        <div class="filters">
+          <label>Week <select id="week-select"></select></label>
+          <label>Metric <select id="metric-select"></select></label>
+          <label class="toggle"><input type="checkbox" id="show-children" checked /> Show child orgs</label>
+        </div>
+      </div>
+      <table class="grid" id="compare-table">
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+      <p class="muted small">Click any row to trace its lineage and provenance.</p>
+    </section>
+
+    <section class="panel" id="reports-panel">
+      <div class="panel-head">
+        <h2>Reports &amp; approval</h2>
+        <div class="actions">
+          <button id="btn-approve" class="primary" disabled>Approve &amp; publish selected</button>
+        </div>
+      </div>
+      <div id="ready-gens" class="ready-gens"></div>
+      <ul class="reports" id="reports"></ul>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" hidden></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
